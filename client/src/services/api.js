@@ -1,7 +1,13 @@
 import axios from 'axios';
 
+let apiUrl = import.meta.env.VITE_API_URL || '/api';
+if (apiUrl && !apiUrl.endsWith('/api') && apiUrl.startsWith('http')) {
+  // Strip trailing slash if present before appending /api
+  apiUrl = `${apiUrl.replace(/\/$/, '')}/api`;
+}
+
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: apiUrl,
 });
 
 // Attach token to every request

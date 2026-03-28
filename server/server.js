@@ -18,9 +18,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Enable CORS
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? [process.env.CLIENT_URL, 'https://golf-charity-subscription-platform.vercel.app'] 
-    : 'http://localhost:5173',
+  origin: [
+    'http://localhost:5173',
+    'https://golf-charity-subscription-platform.vercel.app',
+    'https://golf-charity-subscription-platform-sand.vercel.app',
+    process.env.CLIENT_URL
+  ].filter(Boolean),
   credentials: true,
 }));
 

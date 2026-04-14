@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (!token) {
       setLoading(false);
+      setIsAuthenticated(false);
       return;
     }
 
@@ -26,8 +27,11 @@ export const AuthProvider = ({ children }) => {
       setUser(data.user);
       setIsAuthenticated(true);
     } catch {
+      // Token is expired or invalid — clear everything
       localStorage.removeItem('token');
       localStorage.removeItem('user');
+      setUser(null);
+      setIsAuthenticated(false);
     } finally {
       setLoading(false);
     }
@@ -41,10 +45,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    // Clear all auth state atomically
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
     setIsAuthenticated(false);
+    // Force a full auth recheck to clean up any lingering context
+    setLoading(false);
   };
 
   const updateUser = (userData) => {

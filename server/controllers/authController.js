@@ -39,8 +39,11 @@ exports.register = async (req, res) => {
         email: user.email,
         role: user.role,
         subscriptionStatus: user.subscriptionStatus,
+        subscriptionPlan: user.subscriptionPlan,
+        subscriptionEnd: user.subscriptionEnd,
         selectedCharity: user.selectedCharity,
         charityPercentage: user.charityPercentage,
+        drawNumbers: user.drawNumbers,
       },
     });
   } catch (error) {

@@ -59,7 +59,13 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Guard: if still on step 1 (e.g. Enter key pressed), move to step 2 instead
+    if (step === 1) {
+      if (canProceed) setStep(2);
+      return;
+    }
     if (form.password !== form.confirmPassword) return toast.error('Passwords do not match');
+    if (!canProceed) return toast.error('Please complete all required fields');
     setLoading(true);
     try {
       const { data } = await registerUser({
